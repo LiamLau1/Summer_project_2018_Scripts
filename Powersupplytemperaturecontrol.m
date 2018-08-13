@@ -64,7 +64,7 @@ try
              % turn off power supply, close devices and finish only when
              % time t has been reached.
                     fprintf(s1,'v 0;');  fprintf(s1,'i 0;'); fprintf(s1,'op 0');
-                    fclose(s1); %fclose(s2);
+                    fclose(s1);
                     break;
         end
         end
