@@ -21,7 +21,7 @@ K = 0.15;
 P = 0.2;
 
 try
-    for i = 1:t+1
+    for i = 1:t
         tic;
         [~,bvar]=system('/home/labuser/bin/client localhost 2017 S'); % calls data from picolog
         C = strsplit(bvar, ',');
@@ -30,43 +30,38 @@ try
         pause(1.5);
         % increment 
         if i < 3 || (resid2(i-2) > P || ((abs(resid1) < K) && (abs(resid2(i-2)) < K)))
-            while i <= t
-                if j <= length(current)
-                        % set the power supply
-                        commandstring1 = ['i ' num2str(current(j))];
-                        fprintf(s1,commandstring1);
+            if i < t
+                    % set the power supply
+                    commandstring1 = ['i ' num2str(current(j))];
+                    fprintf(s1,commandstring1);
 
-                        % allow the power supply to settle, original value:
-                        % 0.05
-                        pause(1)
+                    % allow the power supply to settle, original value:
+                    % 0.05
+                    pause(1)
 
-                        %{
-                        read the current
-                        fprintf(s2,':meas:curr:dc?\n');
-                        reply = fscanf(s2);
-                        data(j) = str2num(reply(3:end-2));
-                        %}
+                    %{
+                    read the current
+                    fprintf(s2,':meas:curr:dc?\n');
+                    reply = fscanf(s2);
+                    data(j) = str2num(reply(3:end-2));
+                    %}
 
-                        %{
-                        plot the results
-                        plot(current(1:j),data(1:j),'o');
-                        xlabel('Applied Voltage (V)');
-                        ylabel('Measured Current (A)');
-                        axis([0 30 0 1.2e-3]
-                        %}
+                    %{
+                    plot the results
+                    plot(current(1:j),data(1:j),'o');
+                    xlabel('Applied Voltage (V)');
+                    ylabel('Measured Current (A)');
+                    axis([0 30 0 1.2e-3]
+                    %}
+                    if j <= length(current)
                         j = j +1;
-                else
-                    % maintain 1.8V
-   
-                end
+                    end
+            else
+                % turn off power supply, close devices and finish
+                fprintf(s1,'v 0;');  fprintf(s1,'i 0;'); fprintf(s1,'op 0');
+                fclose(s1); %fclose(s2);
+                break;
             end
-        else
-             % turn off power supply, close devices and finish only when
-             % time t has been reached.
-                    fprintf(s1,'v 0;');  fprintf(s1,'i 0;'); fprintf(s1,'op 0');
-                    fclose(s1);
-                    break;
-        end
         end
 
          if i == 1
