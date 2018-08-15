@@ -10,13 +10,15 @@ fprintf(s1,'v 1.1;'); %set maximum voltage to 0.90V
 fprintf(s1,'i 0.01;'); %maximum operational current to 1.8A, max current tolerated by module is 2.2A
 fprintf(s1,'op 1;'); %set output status on
 t= 700;
-temp=zeros(1,t);
+tempC=zeros(1,t); %cold side temperature
+tempH=zeros(1,t); %hot side temperature
 timeT=zeros(1,t);
 % make our measurement
 current = linspace(0,1.8,19);
 j = 2;
 figure;
 h= animatedline;
+h2= animatedline;
 K = 0.15;
 P = 0.2;
 
@@ -26,7 +28,8 @@ try
         [~,bvar]=system('/home/labuser/bin/client localhost 2017 S'); % calls data from picolog
         C = strsplit(bvar, ',');
         D = str2double(C);%stores values in an array
-        temp(1,i) = D(1,2);
+        tempC(1,i) = D(1,2);
+        tempH(1,i) = D(1,3);
         pause(1.5);
         % increment 
         if i < 3 || (resid2(i-2) > P || ((abs(resid1) < K) && (abs(resid2(i-2)) < K)))
@@ -70,14 +73,15 @@ try
             timeT(i) = timeT(i-1) + toc;
          end
          if i >= 4
-            foo = fit((timeT((i-3):(i-1)))',(temp((i-3):(i-1)))','poly1'); %changed from (i-2):i
-            resid1 = temp(i) - foo(timeT(i));
-            resid2 = diff(temp);
+            foo = fit((timeT((i-3):(i-1)))',(tempC((i-3):(i-1)))','poly1'); %changed from (i-2):i
+            resid1 = tempC(i) - foo(timeT(i));
+            resid2 = diff(tempC);
          else
              resid1 = 0;
              resid2 = zeros(1,t-1); %resid1 and resid2 to check if the temperature has plateaued
          end
-         addpoints(h,timeT(i), temp(i))
+         addpoints(h,timeT(i), tempC(i))
+         addpoints(h2,timeT(i),tempH(i))
          drawnow
     end
 
