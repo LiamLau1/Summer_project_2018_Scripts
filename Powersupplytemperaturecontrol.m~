@@ -24,7 +24,7 @@ P = 0.2;
 
 try
     for i = 1:t
-        tic; %to plot real time on x axis
+        tic;
         [~,bvar]=system('/home/labuser/bin/client localhost 2017 S'); % calls data from picolog
         C = strsplit(bvar, ',');
         D = str2double(C);%stores values in an array

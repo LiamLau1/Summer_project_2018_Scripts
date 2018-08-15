@@ -14,7 +14,7 @@ tempC=zeros(1,t); %cold side temperature
 tempH=zeros(1,t); %hot side temperature
 timeT=zeros(1,t);
 % make our measurement
-current = linspace(0,1.8,19);
+current = linspace(0,0.4,5);
 j = 2;
 figure;
 h= animatedline;
@@ -32,7 +32,7 @@ try
         tempH(1,i) = D(1,3); %pico socket 2
         pause(1.5);
         % increment 
-        if i < 3 || (resid2(i-2) > P || ((abs(resid1) < K) && (abs(resid2(i-2)) < K)))% checks the 2 data points before it to see if a plateau has been reached
+        if i < 3 || (resid2(i-2) > P || ((abs(resid1) < K) && (abs(resid2(i-2)) < K))) % checks the 2 data points before it to see if a plateau has been reached
             if i < t
                     % set the power supply
                     commandstring1 = ['i ' num2str(current(j))];
