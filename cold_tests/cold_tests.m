@@ -56,7 +56,7 @@ try
                     ylabel('Measured Current (A)');
                     axis([0 30 0 1.2e-3]
                     %}
-                    if j <= length(current)
+                    if j < length(current)
                         j = j +1;
                     end
             else
