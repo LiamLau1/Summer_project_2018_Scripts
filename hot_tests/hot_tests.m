@@ -30,8 +30,8 @@ try
         [~,bvar]=system('/home/labuser/bin/client localhost 2017 S'); % calls data from picolog
         C = strsplit(bvar, ',');
         D = str2double(C);%stores values in an array
-        tempC(1,i) = D(1,2); %pico socket 1
-        tempH(1,i) = D(1,3); %pico socket 2
+        tempC(1,i) = D(1,3); %pico socket 2
+        tempH(1,i) = D(1,2); %pico socket 1 %swapped the sides of the peltier module
         tempA(1,i) = D(1,4); %pico socket 3
         pause(1.5);
         % increment 
