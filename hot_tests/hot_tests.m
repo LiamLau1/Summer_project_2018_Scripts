@@ -18,8 +18,8 @@ timeT=zeros(1,t);
 current = linspace(0,0.4,5);
 j = 2;
 figure;
-h= animatedline;%cold side
-h2= animatedline;%hot side
+h= animatedline('Color','b');%cold side
+h2= animatedline('Color','r');%hot side
 h3= animatedline;%ambient temperature
 K = 0.15;
 P = 0.2;
@@ -76,9 +76,9 @@ try
             timeT(i) = timeT(i-1) + toc;
          end
          if i >= 4
-            foo = fit((timeT((i-3):(i-1)))',(tempC((i-3):(i-1)))','poly1'); %changed from (i-2):i
-            resid1 = tempC(i) - foo(timeT(i));
-            resid2 = diff(tempC);
+            foo = fit((timeT((i-3):(i-1)))',(tempH((i-3):(i-1)))','poly1'); %changed from (i-2):i %changed from tempC to tempH for sample heating7tyy
+            resid1 = tempH(i) - foo(timeT(i));
+            resid2 = diff(tempH);
          else
              resid1 = 0;
              resid2 = zeros(1,t-1); %resid1 and resid2 to check if the temperature has plateaued

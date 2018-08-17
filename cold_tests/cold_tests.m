@@ -18,8 +18,8 @@ timeT=zeros(1,t);
 current = linspace(0,0.4,5);
 j = 2;
 figure;
-h= animatedline;%cold side
-h2= animatedline;%hot side
+h= animatedline('Color','b');%cold side
+h2= animatedline('Color','h');%hot side
 h3= animatedline;%ambient temperature
 K = 0.15;
 P = 0.2;

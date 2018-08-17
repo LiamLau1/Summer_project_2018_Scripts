@@ -17,8 +17,8 @@ timeT=zeros(1,t);
 current = linspace(0,1.8,19);
 j = 2;
 figure;
-h= animatedline;
-h2= animatedline;
+h= animatedline('Color','b'); %cold side
+h2= animatedline('Color', 'r'); %hot side
 K = 0.15;
 P = 0.2;
 
